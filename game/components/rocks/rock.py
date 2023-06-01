@@ -15,7 +15,7 @@ class Rock(Sprite):
 
     def __init__(self):
       self.image = self.ROCK_LIST[random.randint(0, 3)]
-      self.image = pygame.transform.scale(self.image, (40, 50))
+      self.image = pygame.transform.scale(self.image, (50, 60))
       self.rect = self.image.get_rect()
       self.rect.x = self.X_POS_LIST[random.randint(0, 14)]
       self.rect.y = self.Y_POS

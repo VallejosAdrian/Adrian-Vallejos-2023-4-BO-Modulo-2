@@ -16,6 +16,8 @@ ROCK_2 = pygame.image.load(os.path.join(IMG_DIR, "Other/rock2.png"))
 ROCK_3 = pygame.image.load(os.path.join(IMG_DIR, "Other/rock3.png"))
 ROCK_4 = pygame.image.load(os.path.join(IMG_DIR, "Other/rock4.png"))
 
+BURST = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion.png"))
+
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))

@@ -1,6 +1,6 @@
 import random
+import pygame
 from game.components.enemies.enemy import Enemy
-from game.components.enemies.enemy2 import Enemy2
 from game.utils.constants import SCREEN_HEIGHT
 
 class EnemyManager():
@@ -12,6 +12,7 @@ class EnemyManager():
 
         for enemy in self.enemies:
             enemy.update(self.enemies, game)
+            self.destroy_player_with_nave(game, enemy)
 
     def draw(self, screen):
         for enemy in self.enemies:
@@ -30,3 +31,11 @@ class EnemyManager():
         
         if len(self.enemies) < 1:
             self.enemies.append(enemy)
+
+    def destroy_player_with_nave(self, game, enemy):
+        if enemy.rect.colliderect(game.player.rect):
+            game.playing = False
+            pygame.time.delay(1000)
+        
+    def destroy_enemy(self, enemy):
+        self.enemies.remove(enemy)
