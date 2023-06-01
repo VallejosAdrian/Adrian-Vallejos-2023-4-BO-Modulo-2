@@ -31,7 +31,7 @@ class Enemy2(Sprite):
         else:
             self.rect.x += self.speed_x
         self.change_movemenet_x()
-            
+        
         if self.rect.y >= SCREEN_HEIGHT:
             ships.remove(self)
 
