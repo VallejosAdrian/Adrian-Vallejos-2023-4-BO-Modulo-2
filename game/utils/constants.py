@@ -1,5 +1,6 @@
 import pygame
 import os
+pygame.mixer.init()
 
 # Global Constants
 TITLE = "Spaceships Game"
@@ -16,7 +17,10 @@ ROCK_2 = pygame.image.load(os.path.join(IMG_DIR, "Other/rock2.png"))
 ROCK_3 = pygame.image.load(os.path.join(IMG_DIR, "Other/rock3.png"))
 ROCK_4 = pygame.image.load(os.path.join(IMG_DIR, "Other/rock4.png"))
 
-BURST = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion.png"))
+BURST_1 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion00.png"))
+BURST_2 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion01.png"))
+BURST_3 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion02.png"))
+BURST_4 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion03.png"))
 
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 

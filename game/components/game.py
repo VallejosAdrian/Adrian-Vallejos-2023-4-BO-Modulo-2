@@ -1,5 +1,4 @@
 import pygame
-
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
@@ -22,6 +21,7 @@ class Game:
         self.y_pos_bg = 0
         self.death_count = 0
         self.score = 0
+        self.highest_score = [0]
         self.player = Spaceship()
         self.enemy_manager = EnemyManager()
         self.rock_manager = RockManager()
@@ -37,7 +37,7 @@ class Game:
         pygame.quit()        
 
     def run(self):
-        # Game loop: events - update - draw
+    # Game loop: events - update - draw
         self.reset_all()
         self.playing = True
         while self.playing:
@@ -66,6 +66,7 @@ class Game:
         self.rock_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
         self.draw_score()
+        self.draw_highest_score()
         pygame.display.update()
         #pygame.display.flip()
 
@@ -87,7 +88,7 @@ class Game:
         self.menu.reset_screen_color(self.screen)
 
         if self.death_count > 0:
-            self.menu.update_message('New Message')
+            self.update_list()
 
         icon = pygame.transform.scale(ICON, (80, 120))
         self.screen.blit(icon, (half_screen_widht - 50, half_screen_height - 150))
@@ -97,12 +98,20 @@ class Game:
 
     def update_score(self):
         self.score += 1
+        self.highest_score.append(self.score)
 
     def draw_score(self):
         font = pygame.font.Font(FONT_STYLE, 30)
-        text = font.render(f'Score : {self.score}', True, (255, 255, 255))
+        text = font.render(f'Score: {self.score}', True, (255, 255, 255))
         text_rect = text.get_rect()
         text_rect.center = (1000, 50)
+        self.screen.blit(text, text_rect)
+
+    def draw_highest_score(self):
+        font = pygame.font.Font(FONT_STYLE, 30)
+        text = font.render(f'Top Score: {max(self.highest_score)}', True, (255, 255, 255))
+        text_rect = text.get_rect()
+        text_rect.center = (1000, 80)
         self.screen.blit(text, text_rect)
 
     def reset_all(self):
@@ -111,3 +120,9 @@ class Game:
         self.bullet_manager.reset()
         self.rock_manager.reset()
         self.player.reset()
+
+    def update_list(self):
+        self.menu.update_message(f'Game Over. Press Any Key To Star :)')
+        self.menu.update_message(f'Your Score: {self.score}')
+        self.menu.update_message(f'Higthest Score: {max(self.highest_score)}')
+        self.menu.update_message(f'Total Deaths: {self.death_count}')

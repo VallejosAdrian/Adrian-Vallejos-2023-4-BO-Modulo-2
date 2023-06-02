@@ -34,6 +34,7 @@ class EnemyManager():
 
     def destroy_player_with_nave(self, game, enemy):
         if enemy.rect.colliderect(game.player.rect):
+            game.death_count += 1
             game.playing = False
             pygame.time.delay(1000)
         

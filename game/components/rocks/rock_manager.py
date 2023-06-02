@@ -27,6 +27,7 @@ class RockManager():
 
     def destroy_player(self, game, rock):
         if rock.rect.colliderect(game.player.rect):
+                game.death_count += 1
                 game.playing = False
                 pygame.time.delay(1000)
 
