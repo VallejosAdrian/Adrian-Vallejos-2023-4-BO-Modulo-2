@@ -39,3 +39,6 @@ class EnemyManager():
         
     def destroy_enemy(self, enemy):
         self.enemies.remove(enemy)
+
+    def reset(self):
+        self.enemies = []

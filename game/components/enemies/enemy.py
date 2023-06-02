@@ -58,7 +58,3 @@ class Enemy(Sprite):
             bullet = Bullet(self)
             bullet_manager.add_bullet(bullet)
             self.shoting_time += random.randint(30, 50)
-
-
-
-

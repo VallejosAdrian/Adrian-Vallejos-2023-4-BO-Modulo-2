@@ -35,3 +35,6 @@ class RockManager():
                 if rock.rect.colliderect(bullet.rect):
                     game.bullet_manager.bullets.remove(bullet)
                     self.rocks.remove(rock)
+
+    def reset(self):
+         self.rocks = []
