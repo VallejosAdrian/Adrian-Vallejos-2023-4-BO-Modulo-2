@@ -4,7 +4,9 @@ from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.rocks.rock_manager import RockManager
 from game.components.bullets.bullet_manager import BulletManager
+from game.components.power_ups.power_up_manage import PowerUpManager
 from game.components.menu import Menu
+
 
 
 class Game:
@@ -26,6 +28,7 @@ class Game:
         self.enemy_manager = EnemyManager()
         self.rock_manager = RockManager()
         self.bullet_manager = BulletManager()
+        self.power_up_manager = PowerUpManager()
         self.menu = Menu('Press Any Key To Star...', self.screen)
 
     def execute(self):
@@ -56,6 +59,7 @@ class Game:
         self.enemy_manager.update(self)
         self.rock_manager.update(self)
         self.bullet_manager.update(self)
+        self.power_up_manager.update(self)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -65,6 +69,8 @@ class Game:
         self.enemy_manager.draw(self.screen)
         self.rock_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
+        self.power_up_manager.draw(self.screen)
+        self.draw_power_up_time()
         self.draw_score()
         self.draw_highest_score()
         pygame.display.update()
@@ -120,9 +126,20 @@ class Game:
         self.bullet_manager.reset()
         self.rock_manager.reset()
         self.player.reset()
+        self.power_up_manager.reset()
 
     def update_list(self):
         self.menu.update_message(f'Game Over. Press Any Key To Star :)')
         self.menu.update_message(f'Your Score: {self.score}')
         self.menu.update_message(f'Higthest Score: {max(self.highest_score)}')
         self.menu.update_message(f'Total Deaths: {self.death_count}')
+
+    def draw_power_up_time(self):
+        if self.player.has_power_up:
+            time_to_show = round((self.player.power_time_up - pygame.time.get_ticks()) / 1000, 2)
+            if time_to_show >= 0:
+                self.menu.draw_shield(self.screen, f'{self.player.power_up_type.capitalize()} is enabled for {time_to_show} seconds')
+            else:
+                self.player.has_power_up = False
+                self.player.power_up_type = DEFAULT_TYPE
+                self.player.set_image()
