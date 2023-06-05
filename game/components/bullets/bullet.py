@@ -19,7 +19,7 @@ class Bullet(Sprite):
             self.rect.y -= self.SPEED
         else:
             self.rect.y += self.SPEED
-
+            
         if self.rect.y <= 0 or self.rect.y >= SCREEN_HEIGHT:
             bullets.remove(self)
 

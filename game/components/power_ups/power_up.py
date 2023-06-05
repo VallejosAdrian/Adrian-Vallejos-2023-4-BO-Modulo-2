@@ -7,14 +7,13 @@ class PowerUp(Sprite):
     def __init__(self, image, type):
         self.image = image
         self.rect = self.image.get_rect()
-        self.rect.x = random.randint(120, SCREEN_HEIGHT - 120)
+        self.rect.x = random.randint(250, 950)
         self.rect.y = 0
         self.type = type
         self.star_time = 0
 
     def update(self, game_speed, power_ups):
         self.rect.y += game_speed
-
         if self.rect.y < 0 or self.rect.y >= SCREEN_HEIGHT:
             power_ups.remove(self)
 

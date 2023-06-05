@@ -9,8 +9,8 @@ class Rock(Sprite):
                   600, 650, 700, 750, 800, 850, 900]
     ROCK_LIST = {0: ROCK_1, 1: ROCK_2, 2: ROCK_3, 3: ROCK_4}
     
-    SPEED_Y = 7
-    SPEED_X = 3
+    SPEED_Y = 4
+    SPEED_X = 2
     MOV_X = {0: 'left', 1: 'right'}
 
     def __init__(self):

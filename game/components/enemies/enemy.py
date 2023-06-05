@@ -25,7 +25,7 @@ class Enemy(Sprite):
         self.move_x_for = random.choice(move_x_for)
         self.index = 0
         self.type = 'enemy'
-        self.shoting_time = random.randint(30, 50)
+        self.shooting_time = random.randint(30, 50)
 
     def update(self, ships, game):
         self.rect.y += self.speed_y
@@ -36,7 +36,7 @@ class Enemy(Sprite):
         else:
             self.rect.x += self.speed_x
         self.change_movemenet_x()
-            
+        
         if self.rect.y >= SCREEN_HEIGHT:
             ships.remove(self)
 
@@ -54,7 +54,7 @@ class Enemy(Sprite):
             
     def shoot(self, bullet_manager):
         current_time = pygame.time.get_ticks()
-        if self.shoting_time <= current_time:
+        if self.shooting_time <= current_time:
             bullet = Bullet(self)
             bullet_manager.add_bullet(bullet)
-            self.shoting_time += random.randint(30, 50)
+            self.shooting_time += random.randint(30, 50)

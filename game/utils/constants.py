@@ -22,6 +22,12 @@ BURST_2 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion01.png"))
 BURST_3 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion02.png"))
 BURST_4 = pygame.image.load(os.path.join(IMG_DIR, "Other/explosion03.png"))
 
+BOMB = pygame.image.load(os.path.join(IMG_DIR, "Other/bomba.png"))
+BOMB_POWER = pygame.image.load(os.path.join(IMG_DIR, "Other/bomb_power.png"))
+BOMB_TYPE = 'bomb_power'
+
+LIFE = pygame.image.load(os.path.join(IMG_DIR, "Other/life.png"))
+
 SHIELD = pygame.image.load(os.path.join(IMG_DIR, 'Other/shield.png'))
 
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
@@ -40,3 +46,5 @@ ENEMY_1 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_1.png"))
 ENEMY_2 = pygame.image.load(os.path.join(IMG_DIR, "Enemy/enemy_2.png"))
 
 FONT_STYLE = 'freesansbold.ttf'
+
+MUSIC = pygame.mixer.Sound("Adrian-Vallejos-2023-4-BO-Modulo-2/game/assets/Other/music.mp3")

@@ -1,12 +1,13 @@
 import pygame
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE, FONT_STYLE, MUSIC, BURST_1
 from game.components.spaceship import Spaceship
 from game.components.enemies.enemy_manager import EnemyManager
 from game.components.rocks.rock_manager import RockManager
 from game.components.bullets.bullet_manager import BulletManager
-from game.components.power_ups.power_up_manage import PowerUpManager
+from game.components.power_ups.power_up_manager import PowerUpManager
+from game.components.enemies.enemy import Enemy
 from game.components.menu import Menu
-
+from game.components.lives import Life
 
 
 class Game:
@@ -22,8 +23,12 @@ class Game:
         self.x_pos_bg = 0
         self.y_pos_bg = 0
         self.death_count = 0
+        self.life_counter = 3
         self.score = 0
         self.highest_score = [0]
+        self.bomb_ammunition = 0
+        self.life = Life()
+        self.ship_enemy = Enemy()
         self.player = Spaceship()
         self.enemy_manager = EnemyManager()
         self.rock_manager = RockManager()
@@ -32,6 +37,8 @@ class Game:
         self.menu = Menu('Press Any Key To Star...', self.screen)
 
     def execute(self):
+        MUSIC.set_volume(0.25)
+        MUSIC.play()
         self.running = True
         while self.running:
             if not self.playing:
@@ -70,15 +77,15 @@ class Game:
         self.rock_manager.draw(self.screen)
         self.bullet_manager.draw(self.screen)
         self.power_up_manager.draw(self.screen)
+        self.life.draw(self.screen, self.life_counter)
         self.draw_power_up_time()
         self.draw_score()
         self.draw_highest_score()
+        self.draw_bomb_ammunition()
         pygame.display.update()
         #pygame.display.flip()
 
     def draw_background(self):
-        half_screen_widht = SCREEN_WIDTH // 2
-        half_screen_height = SCREEN_HEIGHT // 2
         image = pygame.transform.scale(BG, (SCREEN_WIDTH, SCREEN_HEIGHT))
         image_height = image.get_height()
         self.screen.blit(image, (self.x_pos_bg, self.y_pos_bg))
@@ -105,24 +112,36 @@ class Game:
     def update_score(self):
         self.score += 1
         self.highest_score.append(self.score)
+    
+    def draw_counter_states(self, text, text_rect_center):
+        font = pygame.font.Font(FONT_STYLE, 30)
+        rendered_text = font.render(text, True, (255, 255, 255))
+        text_rect = rendered_text.get_rect()
+        text_rect.center = text_rect_center
+        self.screen.blit(rendered_text, text_rect)
 
     def draw_score(self):
-        font = pygame.font.Font(FONT_STYLE, 30)
-        text = font.render(f'Score: {self.score}', True, (255, 255, 255))
-        text_rect = text.get_rect()
-        text_rect.center = (1000, 50)
-        self.screen.blit(text, text_rect)
+        text = f'Score: {self.score}'
+        self.draw_counter_states(text, (1000, 50))
 
     def draw_highest_score(self):
-        font = pygame.font.Font(FONT_STYLE, 30)
-        text = font.render(f'Top Score: {max(self.highest_score)}', True, (255, 255, 255))
-        text_rect = text.get_rect()
-        text_rect.center = (1000, 80)
-        self.screen.blit(text, text_rect)
+        text = f'Top Score: {max(self.highest_score)}'
+        self.draw_counter_states(text, (1000, 80))
+
+    def draw_bomb_ammunition(self):
+        text = f'Bomb Ammunition: {self.bomb_ammunition}'
+        self.draw_counter_states(text, (550, 580))
+
+    def bomb_reset(self):
+        self.enemy_manager.reset_bomb(self)
+        self.bullet_manager.reset()
+        self.rock_manager.reset_bomb_coordinates()
 
     def reset_all(self):
         self.score = 0
-        self.enemy_manager.reset()
+        self.bomb_ammunition = 0
+        self.life_counter = 3
+        self.enemy_manager.reset_list()
         self.bullet_manager.reset()
         self.rock_manager.reset()
         self.player.reset()
@@ -130,9 +149,9 @@ class Game:
 
     def update_list(self):
         self.menu.update_message(f'Game Over. Press Any Key To Star :)')
-        self.menu.update_message(f'Your Score: {self.score}')
-        self.menu.update_message(f'Higthest Score: {max(self.highest_score)}')
-        self.menu.update_message(f'Total Deaths: {self.death_count}')
+        self.menu.update_message(f'Your Score: {str(self.score).zfill(3)}')
+        self.menu.update_message(f'Higthest Score: {str(max(self.highest_score)).zfill(3)}')
+        self.menu.update_message(f'Total Deaths: {str(self.death_count).zfill(3)}')
 
     def draw_power_up_time(self):
         if self.player.has_power_up:

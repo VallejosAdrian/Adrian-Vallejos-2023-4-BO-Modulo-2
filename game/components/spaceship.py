@@ -1,6 +1,7 @@
 import pygame
 from pygame.sprite import Sprite
 from game.components.bullets.bullet import Bullet
+from game.components.bullets.bomb_bullet import BombBullet
 from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, DEFAULT_TYPE
 
 class Spaceship(Sprite):
@@ -32,14 +33,20 @@ class Spaceship(Sprite):
             self.move_down()
         elif user_input[pygame.K_w]:
             self.shoot(game.bullet_manager)
-        if user_input[pygame.K_LEFT] and user_input[pygame.K_w]:
-            self.shoot(game.bullet_manager)
-        if user_input[pygame.K_RIGHT] and user_input[pygame.K_w]:
-            self.shoot(game.bullet_manager)
-        if user_input[pygame.K_UP] and user_input[pygame.K_w]:
-            self.shoot(game.bullet_manager)
-        if user_input[pygame.K_DOWN] and user_input[pygame.K_w]:
-            self.shoot(game.bullet_manager)
+        elif user_input[pygame.K_a]:
+            if game.bomb_ammunition >= 1:
+              self.shoot_bomb(game.bullet_manager)
+              game.bomb_ammunition -= 1
+
+        if user_input[pygame.K_w]:
+            if user_input[pygame.K_LEFT]:
+                self.shoot(game.bullet_manager)
+            elif user_input[pygame.K_RIGHT]:
+                self.shoot(game.bullet_manager)
+            elif user_input[pygame.K_UP]:
+                self.shoot(game.bullet_manager)
+            elif user_input[pygame.K_DOWN]:
+                self.shoot(game.bullet_manager)
 
     def move_left(self):
         self.rect.x -= self.SHIP_SPEED
@@ -65,7 +72,11 @@ class Spaceship(Sprite):
     def shoot(self, bullet_manager):
         bullet = Bullet(self)
         bullet_manager.add_bullet(bullet)
-    
+
+    def shoot_bomb(self, bullet_manager):
+        bomb = BombBullet(self)
+        bullet_manager.add_bomb(bomb)
+        
     def reset(self):
         self.rect.x = self.X_POS
         self.rect.y = self.Y_POS
